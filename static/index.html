@@ -44,12 +44,13 @@
             var text = document.getElementById('textInput').value;
             if (text) {
                 try {
-                    const response = await fetch('http://localhost:30052/save', {
+                    const response = await fetch('http://111.229.181.178:30052/save', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            // 不需要在请求中添加 Access-Control-Allow-Origin，后端会处理
                         },
-                        body: JSON.stringify({ text: text }),  // 确保与后端字段名一致
+                        body: JSON.stringify({ text: text }),
                     });
 
                     const result = await response.json();

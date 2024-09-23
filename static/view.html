@@ -34,7 +34,7 @@
     <script>
         async function fetchSavedText() {
             try {
-                const response = await fetch('http://localhost:30052/view');
+                const response = await fetch('http://111.229.181.178:30052/view');
                 const data = await response.json();
                 document.getElementById('savedText').value = data.text || '没有保存的内容';
             } catch (error) {

@@ -6,7 +6,8 @@ import (
     "io/ioutil"
     "os"
     "time"
-	"github.com/gin-contrib/cors"
+	// "github.com/gin-contrib/cors"
+    "main/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,15 +15,12 @@ var savedText string
 
 func main() {
     r := gin.Default()
-
-    // 允许跨域
-    r.Use(cors.Default())
-
+    r.Use(middlewares.Cors())
     // 提供静态文件支持
     r.Static("/copy", "./static")
 
     // 保存文本的 API
-    r.POST("/save", func(c *gin.Context) {
+    r.POST("/save",func(c *gin.Context) {
         var requestBody struct {
             Text string `json:"text"`
         }
