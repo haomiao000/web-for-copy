@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本保存后端</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 10px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>输入文本</h2>
+    
+    <textarea id="textInput" placeholder="在这里输入文本..."></textarea>
+    <br>
+    <button onclick="saveText()">保存</button>
+    <button onclick="goToViewPage()">查看</button>
+    
+    <div id="message" class="message"></div>
+
+    <script>
+        async function saveText() {
+            var text = document.getElementById('textInput').value;
+            if (text) {
+                try {
+                    const response = await fetch('http://localhost:30052/save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text: text }),  // 确保与后端字段名一致
+                    });
+
+                    const result = await response.json();
+                    if (result.message === '保存成功') {
+                        // 保存成功后跳转到保存成功页面
+                        window.location.href = "success.html";
+                    } else {
+                        document.getElementById('message').textContent = '保存失败，请重试。';
+                    }
+                } catch (error) {
+                    document.getElementById('message').textContent = '保存失败';
+                }
+            } else {
+                document.getElementById('message').textContent = '请输入一些文本再保存。';
+            }
+        }
+
+        // 跳转到查看页面
+        function goToViewPage() {
+            window.location.href = "view.html";
+        }
+    </script>
+
+</body>
+</html>
